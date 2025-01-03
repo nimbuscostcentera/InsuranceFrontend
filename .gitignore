@@ -1,0 +1,21 @@
+.vscode
+/.pnp
+.pnp.js
+node_modules
+# testing
+/coverage
+#environment
+.env-cmdrc.json
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+insurance-frontend.rar
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
