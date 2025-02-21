@@ -22,9 +22,13 @@ function AuthLayout() {
           md={6}
           sm={12}
           xs={12}
-          className="d-flex justify-content-center align-items-center"
+          className="m-0 p-0 d-flex justify-content-center align-items-center"
+          style={{ height: "100%" }}
         >
-          <Outlet />
+          <div style={{width:"auto"}}>
+            <Outlet />
+          </div>
+          {/* {children} */}
         </Col>
       </Row>
       <Footer />

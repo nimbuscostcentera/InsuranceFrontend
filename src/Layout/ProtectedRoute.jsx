@@ -5,6 +5,7 @@ import PrivateLayout from './PrivateLayout';
 function ProtectedRoute() {
   const { userInfo } = useSelector((state) => state.auth);
   const authtoken = userInfo?.data?.token;
+  console.log(authtoken)
   return authtoken ? <PrivateLayout/> : <Navigate to="/" />;
 }
 

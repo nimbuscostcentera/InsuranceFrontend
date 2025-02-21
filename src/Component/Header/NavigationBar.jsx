@@ -4,30 +4,30 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.min";
 import { Navbar, Container, Nav, Offcanvas, Button } from "react-bootstrap";
 import Image from "../../Asset/Nimbus_Logo_Transparent_white.png";
-import { useSelector, useDispatch } from "react-redux";
-import { ClearState } from "../../Slice/AuthSlice";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const NavigationBar = () => {
   const [show, setshow] = useState(false);
-    const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const {}=useSelector((state)=>state.controlsideBar)
   const handleClose = () => {
     setshow(false);
   };
   const handleShow = () => {
     setshow(true);
   };
-  const { userInfo } = useSelector((state) => state.auth);
-
   return (
-    <Navbar key={"md"} expand={"md"} className="header header-color py-0 my-0">
+    <Navbar key={"md"} expand={"md"} className="header header-color py-0 my-0" style={{ width:"100vw"}}>
       <Container fluid className="px-4">
         <Navbar.Brand
           href="https://www.nimbussystems.co.in/"
-          style={{ width: "145px", padding: 0 }}
+          style={{ width: "145px" }}
         >
-          <img src={Image} alt="Nimbus System Pvt. Ltd." width="100%" />
+          <img
+            src={Image}
+            alt="Nimbus System Pvt. Ltd."
+            width="100%"
+            style={{ padding: "2px 0px" }}
+          />
         </Navbar.Brand>
 
         <Button variant="dark" onClick={handleShow} id="menu">
@@ -43,7 +43,7 @@ const NavigationBar = () => {
           responsive="md"
           className="header-color"
         >
-          <Offcanvas.Header className="py-2 px-3">
+          <Offcanvas.Header className="py-2 px-3" style={{borderBottom:"1px solid white"}}>
             <Offcanvas.Title id="offcanvasNavbarLabel-expand-md">
               Menu
             </Offcanvas.Title>
@@ -54,7 +54,7 @@ const NavigationBar = () => {
               ></i>
             </Button>
           </Offcanvas.Header>
-          <hr className="my-1 hrtag" />
+          <hr className="my-1" />
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-4">
               <Nav.Link
@@ -68,16 +68,6 @@ const NavigationBar = () => {
                 className="small-link"
               >
                 contact Us
-              </Nav.Link>
-              <Nav.Link
-                href="#"
-                onClick={() => {
-              localStorage.clear();
-                  window.location.reload();
-                }}
-                className="small-link"
-              >
-                <i className="bi bi-box-arrow-right"></i>
               </Nav.Link>
             </Nav>
           </Offcanvas.Body>

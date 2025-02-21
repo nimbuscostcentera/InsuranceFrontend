@@ -11,6 +11,7 @@ export const authenticate = createAsyncThunk(
           "Content-Type": "application/json",
         }
       const response = await axios.post(URL, UserData, headers); // Convert data to JSON string
+      console.log(response)
       return response?.data;
     }
     catch (error) {

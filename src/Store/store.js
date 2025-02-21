@@ -11,7 +11,15 @@ import InvoiceListSlice from "../Slice/InvoiceListSlice";
 import  FetchTokenSlice  from "../Slice/FetchTokenSlice";
 import UpdateCompanySlice from "../Slice/UpdateCompanySlice";
 import PolicyInsertSlice from "../Slice/InsertPolicySlice";
+import CompanyRegSlice from "../Slice/CompanyRegSlice"
+import CompanyListSlice from "../Slice/CompanyDetailsSlice"
+import CompanyEditSlice from "../Slice/CompanyEditSlice"
+import SideBarControlerSlice from "../Slice/SideBarControlSlice"
 const rootReducer = combineReducers({
+  controlSideBar:SideBarControlerSlice,
+  ComEdit:CompanyEditSlice,
+  allCom:CompanyListSlice,
+  compreg: CompanyRegSlice,
   auth: AuthSlice,
   setpass: SetPasswordSlice,
   genpolicy: GeneratePolicySlice,

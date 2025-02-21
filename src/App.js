@@ -8,6 +8,9 @@ import ForgotPass from "./Pages/LoginPage/ForgotPass";
 import PolicyGen from "./Pages/PolicyGen/index";
 import ProtectedRoute from "./Layout/ProtectedRoute";
 import LinkPage from "./Pages/LinkPage/Index";
+import CompanyReg from "./Pages/CompanyReg/index"
+import Admin from "./Pages/Admin/index"
+import PrivateWrapper from "./Pages/TestPage";
 const App = createBrowserRouter([
   {
     path: "/", // Parent route for `/`
@@ -16,7 +19,7 @@ const App = createBrowserRouter([
     children: [
       {
         path: "", // Resolves to `/`
-        element: <Login />,
+        element: <Login/>,
       },
       {
         path: "forgot-pass", // Resolves to `/`
@@ -41,8 +44,19 @@ const App = createBrowserRouter([
         path: "certificate", // Resolves to `/my/about`
         element: <LinkPage />,
       },
+      {
+        path: "companyreg", // Resolves to `/my/about`
+        element: <CompanyReg/>,
+      },
+      {
+        path: "adminpanel", // Resolves to `/my/about`
+        element: <Admin/>,
+      },
     ],
   },
 ]);
+
+
+
 
 export default App;

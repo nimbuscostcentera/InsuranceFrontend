@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Col, Row, Button, Container } from "react-bootstrap";
-import "../../GlobalStyle/GlobalTheme.css";
-import Loader from "../../Component/Loader";
+import "../../GlobalStyle/authcss.css";
 import SelectOption from "../../Component/SelectOption";
 import imgupload from "../../Asset/upload.png";
 
@@ -19,12 +18,25 @@ import {
   ClearSalesDetailSlice,
 } from "../../Slice/SalesDetailSlice";
 import { FetchToken } from "../../Slice/FetchTokenSlice";
-import { UpdateCompany } from "../../Slice/UpdateCompanySlice";
 import { InsertPolicyNo } from "../../Slice/InsertPolicySlice";
-import { Toast } from "bootstrap/dist/js/bootstrap.min";
 const PolicyGen = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
+  const { Open } = useSelector((state) => state.controlSideBar);
+  useEffect(() => {
+    const boxPolicy = document.getElementById("boxPolicy");
+    if (!Open) {
+      boxPolicy.classList.add("close");
+    } else {
+      boxPolicy.classList.remove("close");
+    }
+    // const tconainer = document.getElementById("table-container");
+    // if (!Open) {
+    //   tconainer.classList.add("close");
+    // } else {
+    //   tconainer.classList.remove("close");
+    // }
+  }, [Open]);
   //console.log(userInfo);
   const [data, setData] = useState({
     inv_no: null,
@@ -101,23 +113,27 @@ const PolicyGen = () => {
 
   const FetchAPIToken = async (data) => {
     let newObj = { data, token: userInfo?.data?.token };
-     setData((prev) => {
-       return { ...prev, API_Token: null };
-     });
     dispatch(FetchToken(newObj))
       .unwrap()
-      .then(async (res) => {
-        setData((prev) => {
-          return { ...prev, API_Token: res?.token };
-        });
-        FetchSalesDetails(res?.token);
-      })
-      .catch((err) => {
-        toast.error(err, { autoClose: 5000, position: "top-right" });
+      .then((res) => {
+        setData({ ...data, API_Token: res?.token });
+        FetchSalesDetails();
       });
   };
 
-  const FetchSalesDetails = async (apitoken) => {
+  // const Update_API_Token = (third_party_token) => {
+  //   dispatch(
+  //     UpdateCompany({
+  //       data: {
+  //         API_Token: third_party_token,
+  //         id: userInfo?.data?.compnayDetails?.id,
+  //       },
+  //       token: userInfo,
+  //     })
+  //   );
+  // };
+
+  const FetchSalesDetails = async () => {
     let objdata = {
       data: { inv_no: data?.inv_no },
       token: userInfo?.data?.token,
@@ -126,9 +142,7 @@ const PolicyGen = () => {
     dispatch(SalesDetail(objdata))
       .unwrap()
       .then(async (res2) => {
-        if (apitoken) {
-          GenerateItemPolicy(apitoken, res2);
-        } 
+        GenerateItemPolicy(data?.API_Token, res2);
       });
   };
 
@@ -190,10 +204,14 @@ const PolicyGen = () => {
   const SubmitHandler = async (e) => {
     e.preventDefault();
     if (data?.inv_no !== null && data?.inv_no !== undefined) {
-      FetchAPIToken({
-        key: userInfo?.data?.compnayDetails?.key,
-        hash_value: userInfo?.data?.compnayDetails?.hash_value,
-      });
+      await Promise.all[
+        [
+          FetchAPIToken({
+            key: userInfo?.data?.compnayDetails?.key,
+            hash_value: userInfo?.data?.compnayDetails?.hash_value,
+          }),
+        ]
+      ];
     } else {
       toast.error("Please Select The Invoice Number First", {
         autoClose: 3000,
@@ -222,59 +240,53 @@ const PolicyGen = () => {
   }, [isInvoiceListSuccess]);
 
   return (
-    <Container
-      fluid
+    <Row
+      id="boxPolicy"
+      className="border border-light border-round "
       style={{
-        height: "95%",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: "55px",
+        backgroundColor: "whitesmoke",
+        width: "400px",
+        border: "1px solid lightgrey",
+        boxShadow: "2px 2px 5px lightgrey",
+        borderRadius:"8px"
       }}
     >
       <ToastContainer />
-      <div
-        className="d-flex flex-column align-items-center pt-4"
-        style={{
-          backgroundColor: "#f8f8ff",
-          borderRadius: "10px",
-          boxShadow: "1px 1px 2px grey",
-          padding: "18px",
-          width: "350px",
-          height: "350px",
-        }}
-      >
-        <img src={imgupload} alt="pic" width={"20%"} />
-        <h5 className="text-center">Apply for Insurance</h5>
-        <form className="form_wrapper">
-          <Row>
-            <Col xs={12} lg={12}>
-              <SelectOption
-                OnSelect={OnChangeHandler}
-                PlaceHolder={"Select Invoice Number"}
-                SName={"inv_no"}
-                SelectStyle={{
-                  padding: "8px",
-                }}
-                Value={data?.inv_no} // Ensure it points to the correct key
-                Soptions={selectiondata}
-                key={1}
-              />
-            </Col>
-            <Col
-              xs={12}
-              lg={12}
-              className="mt-4 d-flex justify-content-center align-items-center"
-            >
-              <Button variant="success" type="submit" onClick={SubmitHandler}>
-                {isPolicyLoading ? <>{"Please Wait ..."}</> : "Apply"}
-              </Button>
-            </Col>
-          </Row>
-        </form>{" "}
-      </div>
-    </Container>
+      <form>
+        <Col>
+          <div className="d-flex justify-content-center align-items-center">
+            <img src={imgupload} alt="pic" style={{ width: "70px" }} />
+          </div>
+          <h5 className="text-center">Apply for Insurance</h5>
+        </Col>
+
+        <Col xs={12} lg={12}>
+          <div className="d-flex justify-content-center align-items-center">
+            <SelectOption
+              OnSelect={OnChangeHandler}
+              PlaceHolder={"Select Invoice Number"}
+              SName={"inv_no"}
+              SelectStyle={{
+                padding: "8px",
+                width: "250px",
+              }}
+              Value={data?.inv_no} // Ensure it points to the correct key
+              Soptions={selectiondata}
+              key={1}
+            />
+          </div>
+        </Col>
+        <Col
+          xs={12}
+          lg={12}
+          className="mt-4 d-flex justify-content-center align-items-center"
+        >
+          <Button variant="success" type="submit" onClick={SubmitHandler}>
+            {isPolicyLoading ? <>{"Please Wait ..."}</> : "Apply"}
+          </Button>
+        </Col>
+      </form>{" "}
+    </Row>
   );
 };
 

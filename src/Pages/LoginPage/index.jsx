@@ -66,13 +66,10 @@ console.log(userInfo);
   };
  
   return (
-    <Form
-      className="form_wrapper px-4"
-      style={{ width: "380px", height: "380px" }}
-    >
+    <Form className="form_wrapper border form-width-height">
       <ToastContainer />
       <Row className="justify-content-center align-items-center px-2">
-        <Col xs={12} className="title_container">
+        <Col xs={12} className="title_container mt-2">
           <img src={ImgLogo} width="15%" />
           <p className="my-0 fs-5 fw-normal color-header">Login Here</p>
         </Col>

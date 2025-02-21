@@ -20,6 +20,7 @@ function InputBox({
   SearchButton,
   SearchHandler,
   isdisable,
+  min
 }) {
   return (
     <div className="Zindex">
@@ -41,6 +42,7 @@ function InputBox({
           maxLength={maxlen}
           style={InputStyle}
           disabled={isdisable}
+          min={min}
         />
         {SearchButton ? (
           <Button

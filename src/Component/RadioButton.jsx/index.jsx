@@ -3,7 +3,8 @@ import "./RadioButton.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min";
 import "bootstrap-icons/font/bootstrap-icons.css";
-function RadioButton({ OptionArray = [], OnClick, RName }) {
+
+function RadioButton({ OptionArray = [], OnClick, RName, value }) {
   return (
     <div className="container-fluid d-flex justify-content-start align-items-center flex-wrap">
       {OptionArray?.map((item, index) => {
@@ -16,13 +17,14 @@ function RadioButton({ OptionArray = [], OnClick, RName }) {
               <input
                 type="radio"
                 name={RName}
-                value={item}
+                value={item.value} 
                 id={`flexRadioDefault${index}`}
                 onChange={OnClick}
+                checked={value === item.value}  
                 className="radio-position"
               />
               &nbsp;
-              <span className="text-label">{item}</span>
+              <span className="text-label">{item.name}</span>  
             </label>
           </div>
         );
